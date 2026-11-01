@@ -2,12 +2,13 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 import model.TaskStatus;
-import service.RealizationManager;
+import service.InMemoryTaskManager;
+import service.Managers;
 import service.TaskManager;
 
 public class main {
     public static void main(String[] args) {
-        TaskManager manager = new RealizationManager();
+        TaskManager manager = Managers.getDefault();
 
         //2 задачи
         Task task1 = new Task("Переезд", "Собрать вещи", TaskStatus.NEW);
