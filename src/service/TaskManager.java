@@ -29,6 +29,8 @@ public interface TaskManager{
     void updateEpic(Epic epic);
     void removeEpic(int id);
     List<Subtask> getSubtaskInEpic(int idEpic);
+    
+    List<Task> history();
 
 
 
