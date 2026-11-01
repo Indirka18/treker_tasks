@@ -63,13 +63,55 @@ public class main {
         System.out.println(manager.getTaskById(task1.getId()));
 
         //Удаляем задачу и эпик
-        System.out.println("\n Delete");
+        /* System.out.println("\n Delete");
         manager.removeTask(task1.getId());
         manager.removeEpic(epic1.getId());
 
         System.out.println("После удаления:");
         System.out.println("Задачи: " + manager.getListTask().size());
         System.out.println("Эпики: " + manager.getListEpic().size());
-        System.out.println("Подзадачи: " + manager.getListSubtask().size());
+        System.out.println("Подзадачи: " + manager.getListSubtask().size()); */
+
+        System.out.println("\nTest history\n");
+
+        System.out.println("1. Запрашиваем Задачу 1:");
+        manager.getTaskById(task1.getId());
+        printHistory(manager);
+
+        System.out.println("2. Запрашиваем Эпик 1:");
+        manager.getEpicById(epic1.getId());
+        printHistory(manager);
+
+        System.out.println("3. Запрашиваем Подзадачу 1:");
+        manager.getSubtaskById(sub1.getId());
+        printHistory(manager);
+
+        System.out.println("4. Запрашиваем Задачу 1 ПОВТОРНО:");
+        manager.getTaskById(task1.getId());
+        printHistory(manager);
+
+        System.out.println("5. Запрашиваем Задачу 2:");
+        manager.getTaskById(task2.getId());
+        printHistory(manager);
+
+        System.out.println("6. Запрашиваем Эпик 2:");
+        manager.getEpicById(epic2.getId());
+        printHistory(manager);
+
+        System.out.println("7. Запрашиваем Подзадачу 3:");
+        manager.getSubtaskById(sub3.getId());
+        printHistory(manager);
+    }
+
+    private static void printHistory(TaskManager manager) {
+        System.out.println("History");
+        if (manager.history().isEmpty()) {
+            System.out.println("   (пусто)");
+        } else {
+            for (Task task : manager.history()) {
+                System.out.println("   -> " + task.getName() + " (ID: " + task.getId() + ")");
+            }
+        }
+        System.out.println();
     }
 }
