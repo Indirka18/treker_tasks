@@ -13,9 +13,20 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null){
             return;
         }
+        remove(task.getId());
         history.add(task);
         if (history.size() > 10){
             history.remove(0);
+        }
+    }
+
+    @Override
+    public void remove(int id){
+        for (int i = 0; i < history.size(); i++){
+            if (history.get(i).getId() == id){
+                history.remove(i);
+                break;
+            }
         }
     }
 
