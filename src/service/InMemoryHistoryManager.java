@@ -44,8 +44,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             tail.next = node;
             node.prev = tail; 
-        tail = node;
         }
+        tail = node;
     }
 
     private List<Task> getTasks() {
