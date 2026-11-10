@@ -2,59 +2,33 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 import model.TaskStatus;
-import service.InMemoryTaskManager;
-import service.Managers;
-import service.TaskManager;
+import service.FileBackedTaskManager;
+
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager manager = Managers.getDefault();
-
-        //2 задачи
-        Task task1 = new Task("Задача 1", "Описание", TaskStatus.NEW);
-        Task task2 = new Task("Задача 2", "Описание", TaskStatus.NEW);
-        Task task3 = new Task("Задача 3", "Описание", TaskStatus.NEW);
-        manager.addTask(task1);
-        manager.addTask(task2);
-        manager.addTask(task3);
-
-        //1-й эпик с 2 подзадачами
-        Epic epic1 = new Epic("Эпик 1", "Описание");
-        manager.createEpic(epic1);
-
-        Subtask sub1 = new Subtask("Эпик 1. Подзадача 1", "Описание",
-                TaskStatus.NEW, epic1.getId());
-        Subtask sub2 = new Subtask("Эпик 1. Подзадача 2", "Описание",
-                TaskStatus.NEW, epic1.getId());
-        manager.addSubtask(sub1);
-        manager.addSubtask(sub2);
-
-        //4-й эпик без подзадач
-        Epic epic2 = new Epic("Эпик 2(пустой)", "Нет подзадач");
-        manager.createEpic(epic2);
-
-        manager.getEpicById(epic2.getId()); // Эпик 2
-        printHistory(manager); 
-
-        manager.getTaskById(task1.getId());//Задача 1
-        printHistory(manager);
-
-        manager.getSubtaskById(sub2.getId());  //Подзадача 2
-        printHistory(manager);
-
-        manager.getTaskById(task1.getId()); // Задача 1
-        printHistory(manager);
-    }
-
-    private static void printHistory(TaskManager manager) {
-        System.out.println("Текущая история:");
-        if (manager.history().isEmpty()) {
-            System.out.println("   (пусто)");
-        } else {
-            for (Task task : manager.history()) {
-                System.out.println("   -> " + task.getName());
-            }
-        }
-        System.out.println();
+        File file = new File("tasks.csv");
+        
+        FileBackedTaskManager manager1 = new FileBackedTaskManager(file);
+        
+        Task task1 = new Task("Task 1", "Описание", TaskStatus.NEW);
+        manager1.addTask(task1);
+        
+        Epic epic1 = new Epic("Epic 1", "Описание эпика");
+        manager1.createEpic(epic1);
+        
+        Subtask sub1 = new Subtask("Sub 1", "Описание", TaskStatus.NEW, epic1.getId());
+        manager1.addSubtask(sub1);
+        
+        manager1.getTaskById(task1.getId());
+        manager1.getEpicById(epic1.getId());
+        
+        FileBackedTaskManager manager2 = FileBackedTaskManager.loadFromFile(file);
+        
+        System.out.println("Задачи: " + manager2.getListTask());
+        System.out.println("Эпики: " + manager2.getListEpic());
+        System.out.println("Подзадачи: " + manager2.getListSubtask());
+        System.out.println("История: " + manager2.history());
     }
 }
