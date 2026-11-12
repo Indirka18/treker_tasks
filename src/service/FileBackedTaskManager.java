@@ -91,7 +91,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 st.append(task.getId()).append(",");
             }
 
-            Files.writeString(file.toPath(), st.toString(), StandardCharsets.UTF_8);
+            Files.writeString(file.toPath(), st, StandardCharsets.UTF_8);
 
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка при записи в файл", e);
